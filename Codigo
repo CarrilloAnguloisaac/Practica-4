@@ -1,0 +1,33 @@
+import heapq
+
+def prim(graph):
+    minimum_spanning_tree = []
+    visited = set()
+    start_vertex = list(graph.keys())[0]
+    priority_queue = [(0, start_vertex)]
+
+    while priority_queue:
+        weight, current_vertex = heapq.heappop(priority_queue)
+
+        if current_vertex not in visited:
+            visited.add(current_vertex)
+            minimum_spanning_tree.append((current_vertex, weight))
+
+            for neighbor, edge_weight in graph[current_vertex].items():
+                if neighbor not in visited:
+                    heapq.heappush(priority_queue, (edge_weight, neighbor))
+
+    return minimum_spanning_tree
+
+# Ejemplo de uso
+graph = {
+    'A': {'B': 2, 'D': 3},
+    'B': {'A': 2, 'D': 4, 'E': 3},
+    'C': {'E': 5},
+    'D': {'A': 3, 'B': 4},
+    'E': {'B': 3, 'C': 5}
+}
+
+minimum_spanning_tree = prim(graph)
+print("Árbol de Expansión Mínima:")
+print(minimum_spanning_tree)
